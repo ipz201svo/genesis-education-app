@@ -14,7 +14,7 @@ const CoursesListPage = () => {
   const page = parseInt(searchParams.get('page') || '1', 10);
   const [pagesCount, setPagesCount] = useState(1);
 
-  const { data, isLoading, isError, isSuccess } = useQuery(["courses", page, count], () => getCourses(page - 1, count), { cacheTime: 0 });
+  const { data, isLoading, isError, isSuccess } = useQuery(["courses", page, count], () => getCourses(page - 1, count), { cacheTime: 60_000 });
 
   useTitle('Courses');
 

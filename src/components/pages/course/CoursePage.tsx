@@ -12,7 +12,7 @@ import Loader from "../../common/Loader";
 
 const CoursePage = () => {
   const { courseId, lessonId } = useParams();
-  const { data, isLoading, isSuccess, isError } = useQuery(["course", courseId], () => getCourse(courseId!));
+  const { data, isLoading, isSuccess, isError } = useQuery(["course", courseId], () => getCourse(courseId!), { cacheTime: 60_000 });
   const lesson = useLesson(courseId!, lessonId, data?.lessons);
   const navigate = useNavigate();
 
