@@ -1,5 +1,5 @@
 import { authAnonymous } from "./authApi";
-import { createRequest } from "./common";
+import { createRequest, handleUnauthorized } from "./common";
 import { GetCourseResponse, GetCourseResult, GetCoursesResponse, GetCoursesResult } from "./types";
 
 export const getCourses = async (page: number, count: number): Promise<GetCoursesResult> => {
@@ -13,10 +13,7 @@ export const getCourses = async (page: number, count: number): Promise<GetCourse
   let response = await fetch(request);
 
   if (response.status === 401) {
-    const token = await authAnonymous();
-    localStorage.setItem("token", token);
-    request.headers.set("Authorization", `Bearer ${token}`);
-    response = await fetch(request);
+    response = await handleUnauthorized(request);
   }
 
   const data: GetCoursesResponse = await response.json();
@@ -38,10 +35,7 @@ export const getCourse = async (id: string): Promise<GetCourseResult> => {
   let response = await fetch(request);
 
   if (response.status === 401) {
-    const token = await authAnonymous();
-    localStorage.setItem("token", token);
-    request.headers.set("Authorization", `Bearer ${token}`);
-    response = await fetch(request);
+    response = await handleUnauthorized(request);
   }
 
   const data: GetCourseResponse = await response.json();

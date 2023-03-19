@@ -1,3 +1,5 @@
+import { authAnonymous } from "./authApi";
+
 const API_URL = 'https://api.wisey.app/api/v1';
 
 export const createRequest = (url: string, token?: string) => {
@@ -13,4 +15,11 @@ export const createRequest = (url: string, token?: string) => {
     request.headers.set('Authorization', `Bearer ${token}`);
 
   return request;
+};
+
+export const handleUnauthorized = async (request: Request) => {
+  const token = await authAnonymous();
+  localStorage.setItem("token", token);
+  request.headers.set("Authorization", `Bearer ${token}`);
+  return await fetch(request);
 };
